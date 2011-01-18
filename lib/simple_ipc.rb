@@ -60,8 +60,8 @@ class SimpleIPC
     @socket.close
   end
   
-  def test_method2
-    puts "Hello, World!"
+  def test_method
+    
   end
   
   private
