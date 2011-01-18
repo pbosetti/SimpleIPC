@@ -28,7 +28,11 @@ class SimpleIPC
   # Sends something to the server
   # @param [Object] something an object
   def send(something)
-    payload = YAML.dump(something)
+    if block_given? then
+      payload = yield(something)
+    else
+      payload = YAML.dump(something)
+    end
     length = [payload.size].pack(LENGTH_CODE)
     @socket.connect(@cfg[:host], @cfg[:port])
     @socket.print length
@@ -53,7 +57,12 @@ class SimpleIPC
     rescue Timeout::Error
       result = nil
     end
-    return result
+    
+    if block_given? then
+      return yield(result)
+    else
+      return YAML.load(result)
+    end
   end
   
   def close
@@ -69,7 +78,7 @@ class SimpleIPC
     msg = @socket.recvfrom(LENGTH_SIZE)[0]
     length = msg.unpack(LENGTH_CODE)[0]
     msg, sender = @socket.recvfrom(length)
-    return YAML.load(msg)
+    return msg
   end
   
 end
@@ -79,10 +88,15 @@ if $0 == __FILE__ then
     from_client = SimpleIPC.new :port => 5000, :timeout => 10
     from_client.listen
     p from_client.get
+    p from_client.get {|s| s.split(",").map {|v| v.to_f}}
+    p from_client.get {|s| s.unpack("N4")}
     
   else # client
     to_server = SimpleIPC.new :port => 5000
     to_server.send([1,2,3, "test"])
+    to_server.send([1,2,3,4]) {|o| o * ","}
+    ary = [1,2,3,4]
+    to_server.send(ary) {|o| o.pack("N#{ary.size}")}
     to_server.close
   end
 end
