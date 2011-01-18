@@ -10,6 +10,7 @@ require "socket"
 require "timeout"
 require "fileutils"
 
+
 # SimpleIPC implements a simple inter process communication
 # @author Paolo Bosetti
 class SimpleSocket
