@@ -60,6 +60,10 @@ class SimpleIPC
     @socket.close
   end
   
+  def test_method2
+    puts "Hello, World!"
+  end
+  
   private
   def get_
     msg = @socket.recvfrom(LENGTH_SIZE)[0]
