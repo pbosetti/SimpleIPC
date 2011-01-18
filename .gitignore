@@ -2,3 +2,4 @@ output/*
 output.txt
 doc/*
 .yardoc
+release/*
