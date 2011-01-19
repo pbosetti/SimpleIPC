@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email = %q{paolo.bosetti@me.com}
   s.files = %w[README.md lib/simple_ipc.rb test/test.rb]
   s.has_rdoc = true
-  s.homepage = %q{http://github.com/pbosetti/simpleipc}
+  s.homepage = %q{http://github.com/pbosetti/SimpleIPC}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{simple_ipc}

@@ -13,6 +13,7 @@ require "fileutils"
 
 # SimpleIPC implements a simple inter process communication
 # @author Paolo Bosetti
+# @version 1.1
 module SimpleIPC
   VERSION = "1.1"
   LOCALHOST = "127.0.0.1"
@@ -25,14 +26,11 @@ module SimpleIPC
   # Wrapper class exposing the same API for +UNIXSocket+ and +UDPSocket+ classes.
   class Socket
     
-    # Default initialization hash is:
-    #   {
-    #     :port => 5000,       # port, only used for UDPSockets
-    #     :host => LOCALHOST,  # Host to talk with, only used for UDPSockets
-    #     :kind => :unix,      # kind of socket, either :unix or :udp
-    #     :force => true       # if true, force removing of stale socket files
-    #   }
     # @param [Hash] args a hash of config values
+    # @option args [Integer] :port (5000) the port, only used for UDPSockets
+    # @option args [String] :host (LOCALHOST) host to talk with, only used for UDPSockets
+    # @option args [Symbol] :kind (:unix) either :unix or :udp
+    # @option args [Bool] :force (true) if true, force removing of stale socket files
     def initialize(args = {})
       @cfg = {
         :port => 5000,
@@ -119,12 +117,11 @@ module SimpleIPC
   class IPC  
     attr_accessor :cfg
     
-    # Default initialization hash is:
-    #   {:port => 5000,      # Port to listen at
-    #    :host => LOCALHOST, # Host to talk to
-    #    :timeout => 0,      # Timeout for blocking connections
-    #    :blocking => false} # use blocking read
     # @param [Hash] args a hash of config values
+    # @option args [Integer] :port (5000) the port, only used for UDPSockets
+    # @option args [String] :host (LOCALHOST) host to talk with, only used for UDPSockets
+    # @option args [Numeric] :timeout (0) timeout for blocking connections
+    # @option args [Bool] :blocking (false) use blocking read
     def initialize(args = {})
       raise ArgumentError, "expecting an Hash" unless args.kind_of? Hash
       @cfg = {:port => 5000, :host => LOCALHOST, :timeout => 0}
@@ -137,6 +134,8 @@ module SimpleIPC
     # for serialization.
     # @param [Object] something an object
     # @yield [Object] a block that serializes the received +Object+
+    # @yieldparam [Object]
+    # @yieldreturn [String]
     def send(something)
       if block_given? then
         payload = yield(something)
@@ -160,6 +159,8 @@ module SimpleIPC
     # YAML#load deserialization is automatically used.
     # @return [Object] a parsed object
     # @yield [String] a block that deserializes the received +String+
+    # @yieldparam [String]
+    # @yieldreturn [Object]
     def get
       result = nil
       begin
