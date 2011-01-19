@@ -6,6 +6,13 @@ Description
 
 SimpleIPC is a library for doing simple inter-process communication in Ruby.
 
+Install
+-------
+
+Available as a gem:
+
+    gem install simple_ipc
+
 Example
 -------
 
