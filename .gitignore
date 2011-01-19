@@ -3,3 +3,4 @@ output.txt
 doc/*
 .yardoc
 release/*
+*.gem
