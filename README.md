@@ -4,7 +4,7 @@ SimpleIPC
 Description
 -----------
 
-SimpleIPC is a library for doing simple inter-process communication in Ruby.
+SimpleIPC is a Ruby library for doing simple inter-process communication in Ruby.
 
 Install
 -------
