@@ -34,3 +34,5 @@ Client example:
     to_server.send([1,2,3, "test"])
     to_server.send({:a => "test", :b => "prova"})
     to_server.send("stop")
+
+
